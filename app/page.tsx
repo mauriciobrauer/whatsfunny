@@ -23,6 +23,7 @@ export default function Home() {
   const [savingId, setSavingId] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
+  const [sendingToTelegram, setSendingToTelegram] = useState(false);
 
   useEffect(() => {
     fetchPhrases();
@@ -185,6 +186,39 @@ export default function Home() {
   const showToast = (message: string, type: 'success' | 'error') => {
     setToast({ message, type });
     setTimeout(() => setToast(null), 3000);
+  };
+
+  const handleSendToTelegram = async () => {
+    const currentPhrases = showAll ? getPaginatedPhrases() : phrases;
+    
+    if (currentPhrases.length === 0) {
+      showToast('No hay frases para enviar', 'error');
+      return;
+    }
+
+    setSendingToTelegram(true);
+    try {
+      const response = await fetch('/api/send-telegram', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ phrases: currentPhrases }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        showToast(`¡${currentPhrases.length} frases enviadas a Telegram!`, 'success');
+      } else {
+        showToast(data.error || 'Error al enviar a Telegram', 'error');
+      }
+    } catch (error) {
+      console.error('Error sending to Telegram:', error);
+      showToast('Error al enviar a Telegram', 'error');
+    } finally {
+      setSendingToTelegram(false);
+    }
   };
 
   const fetchAllPhrases = async () => {
@@ -351,6 +385,26 @@ export default function Home() {
                   />
                 </svg>
                 {refreshing ? 'Refrescando...' : 'Refrescar'}
+              </button>
+              <button
+                onClick={handleSendToTelegram}
+                disabled={sendingToTelegram || loading || (showAll ? getPaginatedPhrases().length === 0 : phrases.length === 0)}
+                className="px-4 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
+              >
+                <svg 
+                  className={`w-5 h-5 ${sendingToTelegram ? 'animate-spin' : ''}`} 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round" 
+                    strokeWidth={2} 
+                    d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" 
+                  />
+                </svg>
+                {sendingToTelegram ? 'Enviando...' : 'Telegram'}
               </button>
             </div>
           </div>
