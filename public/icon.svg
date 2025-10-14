@@ -1,43 +1,56 @@
 <svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
   <!-- Background circle -->
-  <circle cx="256" cy="256" r="240" fill="#FF6B35" stroke="#FF4500" stroke-width="8"/>
+  <circle cx="256" cy="256" r="240" fill="#E67E22"/>
   
   <!-- Orangutan face shape -->
   <ellipse cx="256" cy="280" rx="140" ry="160" fill="#8B4513"/>
   
-  <!-- Face details -->
-  <ellipse cx="256" cy="280" rx="120" ry="140" fill="#CD853F"/>
+  <!-- Face skin area -->
+  <ellipse cx="256" cy="280" rx="120" ry="140" fill="#A0522D"/>
   
   <!-- Eyes -->
-  <ellipse cx="220" cy="240" rx="12" ry="18" fill="#000"/>
-  <ellipse cx="292" cy="240" rx="12" ry="18" fill="#000"/>
+  <ellipse cx="220" cy="240" rx="14" ry="20" fill="#000"/>
+  <ellipse cx="292" cy="240" rx="14" ry="20" fill="#000"/>
   
   <!-- Eye highlights -->
-  <ellipse cx="225" cy="235" rx="4" ry="6" fill="#FFF"/>
-  <ellipse cx="297" cy="235" rx="4" ry="6" fill="#FFF"/>
+  <ellipse cx="225" cy="235" rx="5" ry="7" fill="#FFF"/>
+  <ellipse cx="297" cy="235" rx="5" ry="7" fill="#FFF"/>
   
-  <!-- Nose -->
-  <ellipse cx="256" cy="280" rx="8" ry="12" fill="#654321"/>
+  <!-- Nose area -->
+  <ellipse cx="256" cy="280" rx="10" ry="15" fill="#654321"/>
   
-  <!-- Mouth (big smile) -->
-  <path d="M 220 320 Q 256 360 292 320" stroke="#000" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <!-- Big wide smile with visible teeth -->
+  <path d="M 200 320 Q 256 380 312 320" stroke="#000" stroke-width="8" fill="none" stroke-linecap="round"/>
   
-  <!-- Teeth -->
-  <rect x="240" y="315" width="4" height="8" fill="#FFF" rx="1"/>
-  <rect x="245" y="315" width="4" height="8" fill="#FFF" rx="1"/>
-  <rect x="250" y="315" width="4" height="8" fill="#FFF" rx="1"/>
-  <rect x="255" y="315" width="4" height="8" fill="#FFF" rx="1"/>
-  <rect x="260" y="315" width="4" height="8" fill="#FFF" rx="1"/>
-  <rect x="265" y="315" width="4" height="8" fill="#FFF" rx="1"/>
-  <rect x="270" y="315" width="4" height="8" fill="#FFF" rx="1"/>
+  <!-- Visible teeth (more prominent like in the photo) -->
+  <rect x="235" y="310" width="5" height="12" fill="#FFF" rx="1"/>
+  <rect x="241" y="310" width="5" height="12" fill="#FFF" rx="1"/>
+  <rect x="247" y="310" width="5" height="12" fill="#FFF" rx="1"/>
+  <rect x="253" y="310" width="5" height="12" fill="#FFF" rx="1"/>
+  <rect x="259" y="310" width="5" height="12" fill="#FFF" rx="1"/>
+  <rect x="265" y="310" width="5" height="12" fill="#FFF" rx="1"/>
+  <rect x="271" y="310" width="5" height="12" fill="#FFF" rx="1"/>
+  <rect x="277" y="310" width="5" height="12" fill="#FFF" rx="1"/>
   
-  <!-- Fur around head -->
-  <circle cx="180" cy="180" r="25" fill="#FF4500"/>
-  <circle cx="332" cy="180" r="25" fill="#FF4500"/>
-  <circle cx="160" cy="220" r="20" fill="#FF4500"/>
-  <circle cx="352" cy="220" r="20" fill="#FF4500"/>
-  <circle cx="150" cy="280" r="18" fill="#FF4500"/>
-  <circle cx="362" cy="280" r="18" fill="#FF4500"/>
-  <circle cx="180" cy="340" r="22" fill="#FF4500"/>
-  <circle cx="332" cy="340" r="22" fill="#FF4500"/>
+  <!-- Shaggy orange-red fur around head -->
+  <circle cx="170" cy="170" r="30" fill="#FF4500"/>
+  <circle cx="342" cy="170" r="30" fill="#FF4500"/>
+  <circle cx="150" cy="210" r="25" fill="#FF4500"/>
+  <circle cx="362" cy="210" r="25" fill="#FF4500"/>
+  <circle cx="140" cy="270" r="22" fill="#FF4500"/>
+  <circle cx="372" cy="270" r="22" fill="#FF4500"/>
+  <circle cx="170" cy="320" r="25" fill="#FF4500"/>
+  <circle cx="342" cy="320" r="25" fill="#FF4500"/>
+  <circle cx="190" cy="350" r="20" fill="#FF4500"/>
+  <circle cx="322" cy="350" r="20" fill="#FF4500"/>
+  
+  <!-- Additional fur details -->
+  <circle cx="160" cy="190" r="18" fill="#FF6347"/>
+  <circle cx="352" cy="190" r="18" fill="#FF6347"/>
+  <circle cx="180" cy="360" r="15" fill="#FF6347"/>
+  <circle cx="332" cy="360" r="15" fill="#FF6347"/>
+  
+  <!-- Forehead wrinkles -->
+  <path d="M 200 200 Q 256 190 312 200" stroke="#8B4513" stroke-width="3" fill="none" opacity="0.5"/>
+  <path d="M 210 210 Q 256 200 302 210" stroke="#8B4513" stroke-width="2" fill="none" opacity="0.3"/>
 </svg>

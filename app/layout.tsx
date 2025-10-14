@@ -6,8 +6,9 @@ export const metadata: Metadata = {
   description: "A collection of funny phrases",
   manifest: "/manifest.json",
   icons: {
-    icon: "/icon.svg",
+    icon: ["/favicon.ico", "/icon.svg"],
     apple: "/icon.svg",
+    shortcut: "/favicon.ico",
   },
   appleWebApp: {
     title: "What's Funny",
