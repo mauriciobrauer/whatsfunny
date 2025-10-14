@@ -1,0 +1,18 @@
+name: Send Daily Funny Phrases
+
+on:
+  schedule:
+    # Runs at 8 PM UTC every day
+    - cron: '0 20 * * *'
+  workflow_dispatch: # Allows manual trigger
+
+jobs:
+  send-phrases:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Send daily phrases to Telegram
+      run: |
+        curl -X GET https://whatsfunny-tau.vercel.app/api/cron/send-daily-phrases
+      env:
+        # No environment variables needed since they're set in Vercel
