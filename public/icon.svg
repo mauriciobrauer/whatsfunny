@@ -1,0 +1,43 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="256" cy="256" r="240" fill="#FF6B35" stroke="#FF4500" stroke-width="8"/>
+  
+  <!-- Orangutan face shape -->
+  <ellipse cx="256" cy="280" rx="140" ry="160" fill="#8B4513"/>
+  
+  <!-- Face details -->
+  <ellipse cx="256" cy="280" rx="120" ry="140" fill="#CD853F"/>
+  
+  <!-- Eyes -->
+  <ellipse cx="220" cy="240" rx="12" ry="18" fill="#000"/>
+  <ellipse cx="292" cy="240" rx="12" ry="18" fill="#000"/>
+  
+  <!-- Eye highlights -->
+  <ellipse cx="225" cy="235" rx="4" ry="6" fill="#FFF"/>
+  <ellipse cx="297" cy="235" rx="4" ry="6" fill="#FFF"/>
+  
+  <!-- Nose -->
+  <ellipse cx="256" cy="280" rx="8" ry="12" fill="#654321"/>
+  
+  <!-- Mouth (big smile) -->
+  <path d="M 220 320 Q 256 360 292 320" stroke="#000" stroke-width="6" fill="none" stroke-linecap="round"/>
+  
+  <!-- Teeth -->
+  <rect x="240" y="315" width="4" height="8" fill="#FFF" rx="1"/>
+  <rect x="245" y="315" width="4" height="8" fill="#FFF" rx="1"/>
+  <rect x="250" y="315" width="4" height="8" fill="#FFF" rx="1"/>
+  <rect x="255" y="315" width="4" height="8" fill="#FFF" rx="1"/>
+  <rect x="260" y="315" width="4" height="8" fill="#FFF" rx="1"/>
+  <rect x="265" y="315" width="4" height="8" fill="#FFF" rx="1"/>
+  <rect x="270" y="315" width="4" height="8" fill="#FFF" rx="1"/>
+  
+  <!-- Fur around head -->
+  <circle cx="180" cy="180" r="25" fill="#FF4500"/>
+  <circle cx="332" cy="180" r="25" fill="#FF4500"/>
+  <circle cx="160" cy="220" r="20" fill="#FF4500"/>
+  <circle cx="352" cy="220" r="20" fill="#FF4500"/>
+  <circle cx="150" cy="280" r="18" fill="#FF4500"/>
+  <circle cx="362" cy="280" r="18" fill="#FF4500"/>
+  <circle cx="180" cy="340" r="22" fill="#FF4500"/>
+  <circle cx="332" cy="340" r="22" fill="#FF4500"/>
+</svg>
