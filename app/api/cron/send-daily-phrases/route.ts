@@ -51,9 +51,9 @@ export async function GET(request: Request) {
     // Format message
     let message = '😄 *Daily Funny Phrases*\n\n';
     randomPhrases.forEach((phrase, index) => {
-      message += `${index + 1}\\. ${phrase.text}\n\n`;
+      message += `${index + 1}. ${phrase.text}\n\n`;
     });
-    message += '\\-\\-\\-\n_From What\\'s funny\\?_';
+    message += '---\n_From What\'s funny?_';
 
     // Send to Telegram
     const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
@@ -65,7 +65,7 @@ export async function GET(request: Request) {
       body: JSON.stringify({
         chat_id: chatId,
         text: message,
-        parse_mode: 'MarkdownV2',
+        parse_mode: 'Markdown',
       }),
     });
 
