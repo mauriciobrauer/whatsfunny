@@ -477,7 +477,7 @@ export default function Home() {
                           {phrase.text}
                         </p>
                       </div>
-                      <div className="flex flex-col sm:flex-row gap-2 ml-13 sm:ml-0">
+                      <div className="flex gap-2 ml-13 sm:ml-0">
                         <button
                           onClick={() => handleCopy(phrase.text)}
                           className="p-2 text-green-600 hover:bg-green-100 dark:hover:bg-green-900 rounded-lg transition-colors"
