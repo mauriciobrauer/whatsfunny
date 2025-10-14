@@ -327,7 +327,7 @@ export default function Home() {
         </div>
 
         {/* Add new phrase form */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-8">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 sm:p-6 mb-8">
           <form onSubmit={handleSubmit}>
             <div className="flex gap-3">
               <input
@@ -352,11 +352,11 @@ export default function Home() {
 
         {/* Display phrases */}
         <div className="space-y-4">
-          <div className="flex justify-between items-center mb-4 flex-wrap gap-3">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 gap-3">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
               {showAll ? `Todas las Frases (${allPhrases.length})` : 'Random Funny Phrases'}
             </h2>
-            <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row gap-2">
               <button
                 onClick={handleShowAll}
                 className="px-4 py-2 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition-colors flex items-center gap-2"
@@ -426,7 +426,7 @@ export default function Home() {
                 {displayPhrases.map((phrase, index) => (
                 <div
                   key={phrase.id}
-                  className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
+                  className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 sm:p-6 hover:shadow-lg transition-shadow"
                 >
                   {editingId === phrase.id ? (
                     // Edit mode
@@ -466,16 +466,18 @@ export default function Home() {
                     </div>
                   ) : (
                     // View mode
-                    <div className="flex items-start gap-4">
-                      <div className="flex-shrink-0 w-10 h-10 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center">
-                        <span className="text-purple-600 dark:text-purple-300 font-bold">
-                          {showAll ? (currentPage - 1) * 10 + index + 1 : index + 1}
-                        </span>
+                    <div className="flex flex-col sm:flex-row items-start gap-3 sm:gap-4">
+                      <div className="flex items-start gap-3 sm:gap-4 w-full sm:flex-1">
+                        <div className="flex-shrink-0 w-10 h-10 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center">
+                          <span className="text-purple-600 dark:text-purple-300 font-bold">
+                            {showAll ? (currentPage - 1) * 10 + index + 1 : index + 1}
+                          </span>
+                        </div>
+                        <p className="flex-1 text-base sm:text-lg text-gray-800 dark:text-gray-200 leading-relaxed">
+                          {phrase.text}
+                        </p>
                       </div>
-                      <p className="flex-1 text-lg text-gray-800 dark:text-gray-200">
-                        {phrase.text}
-                      </p>
-                      <div className="flex gap-2">
+                      <div className="flex flex-col sm:flex-row gap-2 ml-13 sm:ml-0">
                         <button
                           onClick={() => handleCopy(phrase.text)}
                           className="p-2 text-green-600 hover:bg-green-100 dark:hover:bg-green-900 rounded-lg transition-colors"
