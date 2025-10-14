@@ -494,18 +494,17 @@ export default function Home() {
                     </div>
                   ) : (
                     // View mode
-                    <div className="flex flex-col sm:flex-row items-start gap-3 sm:gap-4">
-                      <div className="flex items-start gap-3 sm:gap-4 w-full sm:flex-1">
-                        <div className="flex-shrink-0 w-10 h-10 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center">
-                          <span className="text-purple-600 dark:text-purple-300 font-bold">
-                            {showAll ? (currentPage - 1) * 10 + index + 1 : index + 1}
-                          </span>
-                        </div>
-                        <p className="flex-1 text-base sm:text-lg text-gray-800 dark:text-gray-200 leading-relaxed">
+                    <div className="flex items-start gap-3 sm:gap-4">
+                      <div className="flex-shrink-0 w-10 h-10 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center">
+                        <span className="text-purple-600 dark:text-purple-300 font-bold">
+                          {showAll ? (currentPage - 1) * 10 + index + 1 : index + 1}
+                        </span>
+                      </div>
+                      <div className="flex-1 flex items-center justify-between">
+                        <p className="flex-1 text-base sm:text-lg text-gray-800 dark:text-gray-200 leading-relaxed pr-2">
                           {phrase.text}
                         </p>
-                      </div>
-                      <div className="relative overflow-menu ml-13 sm:ml-0">
+                        <div className="relative overflow-menu flex-shrink-0">
                         <button
                           onClick={() => setOpenMenuId(openMenuId === phrase.id ? null : phrase.id)}
                           className="p-2 text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
@@ -556,6 +555,7 @@ export default function Home() {
                             </button>
                           </div>
                         )}
+                        </div>
                       </div>
                     </div>
                   )}
