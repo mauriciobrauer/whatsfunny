@@ -1,8 +1,15 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  output: 'standalone',
+  typescript: {
+    ignoreBuildErrors: false,
+  },
+  eslint: {
+    ignoreDuringBuilds: false,
+  },
+  experimental: {
+    optimizePackageImports: ['firebase/firestore', 'firebase/app'],
+  },
 };
-
-export default nextConfig;
 

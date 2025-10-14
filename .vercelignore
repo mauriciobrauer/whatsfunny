@@ -1,0 +1,10 @@
+# Ignore these files/folders during Vercel deployment
+firebase-functions/
+scripts/
+*.md
+CHANGELOG.md
+FUNCIONALIDADES.md
+RESUMEN_FINAL.md
+TESTING_CHECKLIST.md
+SETUP_GITHUB_GIST.md
+
