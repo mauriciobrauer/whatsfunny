@@ -26,7 +26,7 @@ export async function POST(request: Request) {
     });
     messageText += '---\nFrom What\'s funny?';
 
-    // Send to WhatsApp
+    // Send to WhatsApp using template (more reliable)
     const whatsappUrl = `https://graph.facebook.com/v22.0/${whatsappPhoneNumberId}/messages`;
     const whatsappResponse = await fetch(whatsappUrl, {
       method: 'POST',
@@ -37,9 +37,12 @@ export async function POST(request: Request) {
       body: JSON.stringify({
         messaging_product: 'whatsapp',
         to: whatsappToNumber,
-        type: 'text',
-        text: {
-          body: messageText
+        type: 'template',
+        template: {
+          name: 'hello_world',
+          language: {
+            code: 'en_US'
+          }
         }
       }),
     });
