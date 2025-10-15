@@ -29,22 +29,23 @@ export async function POST(request: Request) {
       `${index + 1}. ${phrase.text}`
     ).join('\n');
 
-    // Send to WhatsApp via Twilio using template
-    console.log('Sending template message:', {
+    // Send to WhatsApp via Twilio using free text (since template isn't working)
+    let messageText = '😄 Funny Phrases\n\n';
+    phrases.forEach((phrase: any, index: number) => {
+      messageText += `${index + 1}. ${phrase.text}\n\n`;
+    });
+    messageText += '---\nFrom What\'s funny?';
+
+    console.log('Sending free text message:', {
       from: twilioWhatsAppNumber,
       to: twilioToNumber,
-      contentSid: 'HXb5b62575e6e4ff6129ad7c8efe1f983e',
-      contentVariables: { "1": phrasesText, "2": new Date().toLocaleDateString() }
+      body: messageText.substring(0, 100) + '...'
     });
     
     const message = await client.messages.create({
       from: twilioWhatsAppNumber,
       to: twilioToNumber,
-      contentSid: 'HXb5b62575e6e4ff6129ad7c8efe1f983e',
-      contentVariables: {
-        "1": phrasesText,
-        "2": new Date().toLocaleDateString()
-      }
+      body: messageText
     });
     
     console.log('Message sent successfully:', message.sid, message.status);
