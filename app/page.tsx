@@ -27,6 +27,8 @@ export default function Home() {
   const [sendingToWhatsApp, setSendingToWhatsApp] = useState(false);
   const [sendingToTwilio, setSendingToTwilio] = useState(false);
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+  const [debugStatus, setDebugStatus] = useState<any>(null);
+  const [checkingDebug, setCheckingDebug] = useState(false);
 
   useEffect(() => {
     fetchPhrases();
@@ -349,8 +351,35 @@ export default function Home() {
     return allPhrases.slice(startIndex, startIndex + 10);
   };
 
+  const handleCheckDebugStatus = async () => {
+    setCheckingDebug(true);
+    try {
+      const response = await fetch('/api/debug-status');
+      const data = await response.json();
+      setDebugStatus(data);
+      showToast('Estado del debugging actualizado', 'success');
+    } catch (error) {
+      console.error('Error checking debug status:', error);
+      showToast('Error al verificar estado del debugging', 'error');
+    } finally {
+      setCheckingDebug(false);
+    }
+  };
+
   const totalPages = showAll ? Math.ceil(allPhrases.length / 10) : 1;
   const displayPhrases = showAll ? getPaginatedPhrases() : phrases;
+
+  // Debug: Mostrar variables de entorno
+  const debugInfo = {
+    NODE_ENV: process.env.NODE_ENV,
+    NEXT_PUBLIC_ENV: process.env.NEXT_PUBLIC_ENV,
+    showWhatsApp: false, // Siempre oculto según solicitud original
+    showTwilio: false, // Siempre oculto según solicitud original
+    showDebug: false // Siempre oculto según solicitud original
+  };
+
+  // Log en consola para debugging
+  console.log('🐛 Frontend Debug Info:', debugInfo);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 py-12 px-4 sm:px-6 lg:px-8">
@@ -406,11 +435,28 @@ export default function Home() {
       )}
 
       <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-6">
-          <h1 className="text-5xl font-bold text-gray-900 dark:text-white">
-            What&apos;s funny?
-          </h1>
-        </div>
+                <div className="text-center mb-6">
+                  <h1 className="text-5xl font-bold text-gray-900 dark:text-white">
+                    What&apos;s funny?
+                  </h1>
+                  
+                  {/* Debug Info - Siempre visible para debugging */}
+                  <div className="mt-4 p-3 bg-yellow-100 dark:bg-yellow-900 rounded-lg text-sm">
+                    <strong>🐛 Debug Info:</strong>
+                    <br />
+                    NODE_ENV: {debugInfo.NODE_ENV}
+                    <br />
+                    NEXT_PUBLIC_ENV: {debugInfo.NEXT_PUBLIC_ENV || 'undefined'}
+                    <br />
+                    Show WhatsApp: {debugInfo.showWhatsApp ? 'YES' : 'NO'}
+                    <br />
+                    Show Twilio: {debugInfo.showTwilio ? 'YES' : 'NO'}
+                    <br />
+                    Show Debug: {debugInfo.showDebug ? 'YES' : 'NO'}
+                    <br />
+                    <strong>URL:</strong> {typeof window !== 'undefined' ? window.location.href : 'Server-side'}
+                  </div>
+                </div>
 
         {/* Add new phrase form */}
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 sm:p-6 mb-8">
@@ -502,34 +548,75 @@ export default function Home() {
                 </svg>
                 {sendingToTelegram ? 'Enviando...' : 'Telegram'}
               </button>
-              <button
-                onClick={handleSendToWhatsApp}
-                disabled={sendingToWhatsApp || loading || (showAll ? getPaginatedPhrases().length === 0 : phrases.length === 0)}
-                className="px-4 py-2 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
-              >
-                <svg 
-                  className={`w-5 h-5 ${sendingToWhatsApp ? 'animate-spin' : ''}`} 
-                  fill="currentColor" 
-                  viewBox="0 0 24 24"
+              {/* WhatsApp button - always hidden */}
+              {(() => {
+                const show = false;
+                console.log('🐛 WhatsApp button show:', show);
+                return show;
+              })() && (
+                <button
+                  onClick={handleSendToWhatsApp}
+                  disabled={sendingToWhatsApp || loading || (showAll ? getPaginatedPhrases().length === 0 : phrases.length === 0)}
+                  className="px-4 py-2 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
                 >
-                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.893 3.488"/>
-                </svg>
-                {sendingToWhatsApp ? 'Enviando...' : 'WhatsApp'}
-              </button>
-              <button
-                onClick={handleSendToTwilio}
-                disabled={sendingToTwilio || loading || (showAll ? getPaginatedPhrases().length === 0 : phrases.length === 0)}
-                className="px-4 py-2 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
-              >
-                <svg 
-                  className={`w-5 h-5 ${sendingToTwilio ? 'animate-spin' : ''}`} 
-                  fill="currentColor" 
-                  viewBox="0 0 24 24"
+                  <svg 
+                    className={`w-5 h-5 ${sendingToWhatsApp ? 'animate-spin' : ''}`} 
+                    fill="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.893 3.488"/>
+                  </svg>
+                  {sendingToWhatsApp ? 'Enviando...' : 'WhatsApp'}
+                </button>
+              )}
+              {/* Twilio button - always hidden */}
+              {(() => {
+                const show = false;
+                console.log('🐛 Twilio button show:', show);
+                return show;
+              })() && (
+                <button
+                  onClick={handleSendToTwilio}
+                  disabled={sendingToTwilio || loading || (showAll ? getPaginatedPhrases().length === 0 : phrases.length === 0)}
+                  className="px-4 py-2 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
                 >
-                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.893 3.488"/>
-                </svg>
-                {sendingToTwilio ? 'Enviando...' : 'Twilio'}
-              </button>
+                  <svg 
+                    className={`w-5 h-5 ${sendingToTwilio ? 'animate-spin' : ''}`} 
+                    fill="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.893 3.488"/>
+                  </svg>
+                  {sendingToTwilio ? 'Enviando...' : 'Twilio'}
+                </button>
+              )}
+              {/* Debug button - always hidden */}
+              {(() => {
+                const show = false;
+                console.log('🐛 Debug button show:', show);
+                return show;
+              })() && (
+                <button
+                  onClick={handleCheckDebugStatus}
+                  disabled={checkingDebug}
+                  className="px-4 py-2 bg-gray-600 text-white font-semibold rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
+                >
+                  <svg 
+                    className={`w-5 h-5 ${checkingDebug ? 'animate-spin' : ''}`} 
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
+                    <path 
+                      strokeLinecap="round" 
+                      strokeLinejoin="round" 
+                      strokeWidth={2} 
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" 
+                    />
+                  </svg>
+                  {checkingDebug ? 'Verificando...' : 'Debug'}
+                </button>
+              )}
             </div>
           </div>
           
@@ -682,6 +769,55 @@ export default function Home() {
               </div>
             )}
           </>
+          )}
+
+          {/* Debug Status Section */}
+          {debugStatus && (
+            <div className="mt-8 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
+                🔍 Estado del Debugging
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                <div>
+                  <strong>📅 Timestamp:</strong> {debugStatus.timestamp}
+                </div>
+                <div>
+                  <strong>📁 Directorio temp-pdfs:</strong> {debugStatus.tempPdfsExists ? '✅ Existe' : '❌ No existe'}
+                </div>
+                <div>
+                  <strong>📄 PDFs descargados:</strong> {debugStatus.pdfCount}
+                </div>
+                <div>
+                  <strong>🌐 ngrok URL:</strong> 
+                  <br />
+                  <code className="text-xs bg-gray-100 dark:bg-gray-700 p-1 rounded">
+                    {debugStatus.ngrokUrl}
+                  </code>
+                </div>
+                <div>
+                  <strong>🔗 Webhook URL:</strong>
+                  <br />
+                  <code className="text-xs bg-gray-100 dark:bg-gray-700 p-1 rounded">
+                    {debugStatus.webhookUrl}
+                  </code>
+                </div>
+                <div>
+                  <strong>🖥️ Servidor:</strong> {debugStatus.serverStatus}
+                </div>
+              </div>
+              {debugStatus.pdfFiles && debugStatus.pdfFiles.length > 0 && (
+                <div className="mt-4">
+                  <strong>📋 Últimos PDFs:</strong>
+                  <ul className="list-disc list-inside mt-2">
+                    {debugStatus.pdfFiles.map((file: string, index: number) => (
+                      <li key={index} className="text-sm text-gray-600 dark:text-gray-400">
+                        {file}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
           )}
         </div>
       </div>
