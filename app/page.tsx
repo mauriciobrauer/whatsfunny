@@ -369,17 +369,6 @@ export default function Home() {
   const totalPages = showAll ? Math.ceil(allPhrases.length / 10) : 1;
   const displayPhrases = showAll ? getPaginatedPhrases() : phrases;
 
-  // Debug: Mostrar variables de entorno
-  const debugInfo = {
-    NODE_ENV: process.env.NODE_ENV,
-    NEXT_PUBLIC_ENV: process.env.NEXT_PUBLIC_ENV,
-    showWhatsApp: false, // Siempre oculto según solicitud original
-    showTwilio: false, // Siempre oculto según solicitud original
-    showDebug: false // Siempre oculto según solicitud original
-  };
-
-  // Log en consola para debugging
-  console.log('🐛 Frontend Debug Info:', debugInfo);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 py-12 px-4 sm:px-6 lg:px-8">
@@ -440,22 +429,6 @@ export default function Home() {
                     What&apos;s funny?
                   </h1>
                   
-                  {/* Debug Info - Siempre visible para debugging */}
-                  <div className="mt-4 p-3 bg-yellow-100 dark:bg-yellow-900 rounded-lg text-sm">
-                    <strong>🐛 Debug Info:</strong>
-                    <br />
-                    NODE_ENV: {debugInfo.NODE_ENV}
-                    <br />
-                    NEXT_PUBLIC_ENV: {debugInfo.NEXT_PUBLIC_ENV || 'undefined'}
-                    <br />
-                    Show WhatsApp: {debugInfo.showWhatsApp ? 'YES' : 'NO'}
-                    <br />
-                    Show Twilio: {debugInfo.showTwilio ? 'YES' : 'NO'}
-                    <br />
-                    Show Debug: {debugInfo.showDebug ? 'YES' : 'NO'}
-                    <br />
-                    <strong>URL:</strong> {typeof window !== 'undefined' ? window.location.href : 'Server-side'}
-                  </div>
                 </div>
 
         {/* Add new phrase form */}
@@ -549,11 +522,7 @@ export default function Home() {
                 {sendingToTelegram ? 'Enviando...' : 'Telegram'}
               </button>
               {/* WhatsApp button - always hidden */}
-              {(() => {
-                const show = false;
-                console.log('🐛 WhatsApp button show:', show);
-                return show;
-              })() && (
+              {false && (
                 <button
                   onClick={handleSendToWhatsApp}
                   disabled={sendingToWhatsApp || loading || (showAll ? getPaginatedPhrases().length === 0 : phrases.length === 0)}
@@ -570,11 +539,7 @@ export default function Home() {
                 </button>
               )}
               {/* Twilio button - always hidden */}
-              {(() => {
-                const show = false;
-                console.log('🐛 Twilio button show:', show);
-                return show;
-              })() && (
+              {false && (
                 <button
                   onClick={handleSendToTwilio}
                   disabled={sendingToTwilio || loading || (showAll ? getPaginatedPhrases().length === 0 : phrases.length === 0)}
@@ -591,11 +556,7 @@ export default function Home() {
                 </button>
               )}
               {/* Debug button - always hidden */}
-              {(() => {
-                const show = false;
-                console.log('🐛 Debug button show:', show);
-                return show;
-              })() && (
+              {false && (
                 <button
                   onClick={handleCheckDebugStatus}
                   disabled={checkingDebug}
